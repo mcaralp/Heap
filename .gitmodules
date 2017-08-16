@@ -1,3 +1,7 @@
 [submodule "extlibs/JSON"]
 	path = extlibs/JSON
 	url = https://github.com/nlohmann/json.git
+[submodule "extlibs/SFML"]
+	path = extlibs/SFML
+	url = https://github.com/SFML/SFML.git
+	branch = 2.4.x
