@@ -12,6 +12,8 @@ endif()
 
 include(CheckCXXCompilerFlag)
 
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9")
+
 add_subdirectory("${PROJECT_SOURCE_DIR}/extlibs/SFML")
 
 if (MSVC)
