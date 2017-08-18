@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8.12)
 
 project(Heap)
 
+
+
 if (NOT IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extlibs/SFML/src)
     message(FATAL_ERROR
         "Seems like some of the required dependencies are missing. "
@@ -39,14 +41,6 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU"
     endif()
 endif()
 
-
-set (GENERATED  ${CMAKE_BINARY_DIR}/generated/)
-set (FONT       ${CMAKE_SOURCE_DIR}/res/fonts/CaviarDreams.ttf)
-set (FONTHEADER ${GENERATED}/data/fontData.h)
-
-set (SHADER       ${CMAKE_SOURCE_DIR}/res/shaders/grayscale.vert)
-set (SHADERHEADER ${GENERATED}/data/shaderData.h)
-
 set (
     SRC
     ${CMAKE_SOURCE_DIR}/src/main.cxx 
@@ -56,6 +50,10 @@ set (
     ${CMAKE_SOURCE_DIR}/src/scene.cxx 
     ${CMAKE_SOURCE_DIR}/src/background.cxx
     ${CMAKE_SOURCE_DIR}/src/startButton.cxx
+    ${CMAKE_SOURCE_DIR}/src/scrollingScores.cxx
+    ${CMAKE_SOURCE_DIR}/src/resources.cxx
+    ${CMAKE_SOURCE_DIR}/src/blinkingText.cxx
+    ${CMAKE_SOURCE_DIR}/src/path.cxx
 )
 
 set (
@@ -65,6 +63,9 @@ set (
     ${CMAKE_SOURCE_DIR}/include/stage.h 
     ${CMAKE_SOURCE_DIR}/include/scene.h
     ${CMAKE_SOURCE_DIR}/include/background.h
+    ${CMAKE_SOURCE_DIR}/include/startButton.h
+    ${CMAKE_SOURCE_DIR}/include/scrollingScores.h
+    ${CMAKE_SOURCE_DIR}/include/resources.h
 
     ${FONTHEADER}
     ${SHADERHEADER}
@@ -90,18 +91,4 @@ target_include_directories (
     
     ${CMAKE_SOURCE_DIR}/extlibs/SFML/include
     ${CMAKE_SOURCE_DIR}/include
-    ${GENERATED}
-)
-
-
-add_custom_command (
-    OUTPUT ${FONTHEADER}
-    COMMAND ${CMAKE_COMMAND} -DINPUTFILE=${FONT} -DOUTPUTFILE=${FONTHEADER} -DNAME=font -P ${CMAKE_SOURCE_DIR}/cmake/fileToHeader.cmake
-    DEPENDS ${FONT}
-)   
-
-add_custom_command (
-    OUTPUT ${SHADERHEADER}
-    COMMAND ${CMAKE_COMMAND} -DINPUTFILE=${SHADER} -DOUTPUTFILE=${SHADERHEADER} -DNAME=shader -P ${CMAKE_SOURCE_DIR}/cmake/fileToHeader.cmake
-    DEPENDS ${SHADER}
 )

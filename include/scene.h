@@ -7,13 +7,15 @@
 #include "util.h"
 #include "stage.h"
 #include "background.h"
+#include "scrollingScores.h"
+#include "blinkingText.h"
 
 namespace heap
 {
     class Scene
     {
         public:
-            Scene();
+            Scene(uint32_t width, uint32_t height);
 
             void reset();
             void start();
@@ -21,9 +23,12 @@ namespace heap
             bool update();
             bool draw();
 
-            void beginStateUpdate (sf::Event & event);
-            void playStateUpdate  (sf::Event & event);
-            void deadStateUpdate  (sf::Event & event);
+            void beginStateEvent  (sf::Event & event);
+            void playStateEvent   (sf::Event & event);
+            void deadStateEvent   (sf::Event & event);
+            void beginStateUpdate ();
+            void playStateUpdate  ();
+            void deadStateUpdate  ();
             void beginStateDraw   ();
             void playStateDraw    ();
             void deadStateDraw    ();
@@ -36,17 +41,7 @@ namespace heap
                 DeadState
             };
 
-            struct Score
-            {
-                std::string name;
-                uint32_t score;
-
-                Score(const std::string & n, uint32_t s)
-                    : name(n), score(s)
-                {
-
-                }
-            };
+            
 
             static const uint8_t startingCuboids;
             static const uint8_t heapHeight;
@@ -80,19 +75,15 @@ namespace heap
             Stage::Shifting m_lastShift;
 
             State        m_state;
-
-            sf::Font     m_font;
-
-            sf::Shader   m_grayscaleShader;
-            sf::Shader   m_gradientShader;
         
             float        m_grayScale;
             float        m_grayScaleCible;
 
-            std::vector<Score> m_scores;
-            uint32_t m_currentPosition = 4;
-            uint32_t m_currentLetter = 0;
-            uint32_t m_cptCursor = 0;
+            BlinkingText m_startText;
+            BlinkingText m_continueText;
+            BlinkingText m_scoreText;
+
+            ScrollingScores m_scores;
 
     };
 }
