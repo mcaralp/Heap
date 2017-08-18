@@ -35,11 +35,32 @@ NS::Scene(uint32_t width, uint32_t height)
     
     m_window.setFramerateLimit(60);
 
-    // This is the position where cuboids spawn
+    // This is the ideal position where the player have to stop the cuboid.
     m_center = sf::Vector2f(m_width / 2, m_height - m_cuboidHeight * startingCuboids);
+
+    // We compute the start coordintaes of a cuboid when it spawn. 
+    // For the right position, we compute the intersection
+    // between the right border (called a) of the window and the 
+    // line crossing the dot m_center with an angle of Cuboid::angle (called b).
     
-    m_leftStart  = polarToCartesian(180 + Cuboid::angle, m_distanceToBorder);
-    m_rightStart = polarToCartesian(-Cuboid::angle, m_distanceToBorder);
+    // We compute the slope of (b) by first computing a point on
+    // a line (c) crossing the coordinates (0, 0) with the same angle as (b).
+    sf::Vector2f coords = polarToCartesian(Cuboid::angle, 1);
+    // We now compute the slope of (c), which is the same as (b).
+    float slope = coords.y / coords.x;
+    // We compute the y coordinate of the intersection of (a) and (b)
+    float y = width * slope + m_center.x;
+    
+    // We can now compute the final coordinates by adding the m_center position.
+    sf::Vector2f rightCoords = sf::Vector2f(width, std::ceil(y));
+    // As m_center is at the center of the window, we can easily deduce
+    // the left coordinates using the right coordinates.
+    sf::Vector2f leftCoords = sf::Vector2f(0, std::ceil(y));
+
+    // We compute the vectors between m_center and
+    // the newly computed coordinates.
+    m_rightStart = rightCoords - m_center;
+    m_leftStart  = leftCoords  - m_center;
 
     m_grayScale = 0;
     m_grayScaleCible = 0;

@@ -8,8 +8,9 @@ int main(int, char ** argv)
 
 	// Compute the size of the window
 	sf::VideoMode mode = sf::VideoMode::getDesktopMode();
-	uint32_t width  = mode.height / 2;
-	uint32_t height = mode.height * (3 / 4.f);
+	
+	uint32_t height = mode.height * 0.9;
+	uint32_t width  = height * 2.f / 3.f;
 
     heap::Scene scene(width, height);
 
